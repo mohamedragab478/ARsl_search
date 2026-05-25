@@ -1,0 +1,46 @@
+[project]
+name = "lasttttttt"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "albumentations>=2.0.8",
+    "google>=3.0.0",
+    "gradio>=6.14.0",
+    "imageio>=2.37.3",
+    "imageio-ffmpeg>=0.6.0",
+    "matplotlib>=3.10.9",
+    "numpy>=2.4.4",
+    "nbconvert>=7.0.0",
+    "opencv-python>=4.13.0.92",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.3",
+    "pillow>=12.2.0",
+    "pylatexenc>=2.10",
+    "ipykernel>=6.0.0",
+    "qiskit>=2.4.1",
+    "scikit-learn>=1.8.0",
+    "scipy>=1.17.1",
+    "seaborn>=0.13.2",
+    "sentence-transformers>=5.5.0",
+    "torch>=2.11.0",
+    "torchaudio>=2.11.0",
+    "torchvision>=0.26.0",
+    "tqdm>=4.66.5",
+    "ultralytics>=8.4.50",
+    "spacy>=3.8.14",
+    "camel-tools>=1.5.2",
+    "qalsadi>=0.5.1",
+    "transformers>=5.8.1",
+]
+
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch" }
+torchvision = { index = "pytorch" }
+torchaudio = { index = "pytorch" }
