@@ -1,7 +1,7 @@
 [project]
-name = "lasttttttt"
+name = "ARsl_search"
 version = "0.1.0"
-description = "Add your description here"
+description = "Arabic Sign Language Search System"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
