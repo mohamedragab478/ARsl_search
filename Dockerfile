@@ -27,16 +27,7 @@ COPY --chown=user sign_search.py ./
 RUN wget -q --show-progress \
     "https://github.com/mohamedragab478/ARsl_search/releases/download/ARsl_search/data_gifs.zip" \
     -O /tmp/data_gifs.zip \
-    && python3 -c "\
-import zipfile, os; \
-z = zipfile.ZipFile('/tmp/data_gifs.zip'); \
-os.makedirs('/app/data_gifs', exist_ok=True); \
-for m in z.namelist():\
-    filename = os.path.basename(m.replace('\\\\', '/'));\
-    if filename.endswith('.gif'):\
-        with z.open(m) as src, open(os.path.join('/app/data_gifs', filename), 'wb') as dst:\
-            dst.write(src.read())\
-" \
+    && python3 -c "import zipfile, os; z = zipfile.ZipFile('/tmp/data_gifs.zip'); os.makedirs('/app/data_gifs', exist_ok=True); [open(os.path.join('/app/data_gifs', os.path.basename(m.replace('\\\\', '/'))), 'wb').write(z.open(m).read()) for m in z.namelist() if os.path.basename(m.replace('\\\\', '/')).endswith('.gif')]" \
     && rm /tmp/data_gifs.zip \
     && chown -R user:user /app
 
