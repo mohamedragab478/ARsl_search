@@ -31,9 +31,12 @@ RUN wget -q --show-progress \
 import zipfile, os; \
 z = zipfile.ZipFile('/tmp/data_gifs.zip'); \
 os.makedirs('/app/data_gifs', exist_ok=True); \
-[z.extract(m, '/app/data_gifs') for m in z.namelist()]; \
+for m in z.namelist():\
+    filename = os.path.basename(m.replace('\\\\', '/'));\
+    if filename.endswith('.gif'):\
+        with z.open(m) as src, open(os.path.join('/app/data_gifs', filename), 'wb') as dst:\
+            dst.write(src.read())\
 " \
-    && find /app/data_gifs -mindepth 2 -name '*.gif' -exec mv {} /app/data_gifs/ \; 2>/dev/null || true \
     && rm /tmp/data_gifs.zip \
     && chown -R user:user /app
 
