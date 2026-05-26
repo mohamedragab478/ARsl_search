@@ -22,7 +22,6 @@ RUN uv pip install --system -r requirements.txt \
 
 COPY --chown=user app/ ./app/
 COPY --chown=user KARSL-502_Labels.xlsx ./
-COPY --chown=user sign_search.py ./
 
 RUN wget -q --show-progress \
     "https://github.com/mohamedragab478/ARsl_search/releases/download/ARsl_search/data_gifs.zip" \
