@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>مترجم لغة الإشارة العربية | Arabic Sign Language Search</title>
+    <meta name="description" content="نظام ذكي متكامل لترجمة النصوص والجمل العربية إلى لغة الإشارة العربية (ArSL) بشكل ثنائي الأبعاد، مع متصفح للقاموس الإشاري وتفاصيل دقيقة للترجمة.">
+    <meta name="keywords" content="لغة الإشارة، مترجم إشارة، ترجمة لغة الإشارة العربية، لغة الإشارة العربية، ArSL, sign language, arabic sign translator">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- App Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="glow-bg-1"></div>
+    <div class="glow-bg-2"></div>
+
+    <div class="app-container">
+        <!-- Main Navigation Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">🤟</div>
+                <h1 id="main-title">مُتَرْجِمُ لُغَةِ الإِشَارَةِ العَرَبِيَّةِ</h1>
+            </div>
+            <p class="subtitle">نظام بحث ومعالجة دلالية متطور لتحويل الجمل والنصوص إلى تسلسلات إشارية متحركة</p>
+            
+            <nav class="tab-navigation">
+                <button id="btn-tab-translator" class="tab-btn active" onclick="switchTab('translator')">
+                    <i class="fa-solid fa-language"></i> مترجم الجمل
+                </button>
+                <button id="btn-tab-dictionary" class="tab-btn" onclick="switchTab('dictionary')">
+                    <i class="fa-solid fa-book-open"></i> القاموس الإشاري
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Body -->
+        <main class="app-main">
+            <!-- TRANSLATOR TAB CONTENT -->
+            <section id="tab-translator-content" class="tab-content active-content">
+                <div class="grid-layout">
+                    <!-- Left: Inputs & Analysis -->
+                    <div class="input-panel glass-card">
+                        <div class="panel-header">
+                            <i class="fa-regular fa-keyboard panel-icon"></i>
+                            <h2>مدخلات النص والتحليل</h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="input-sentence">اكتب الجملة المراد ترجمتها:</label>
+                            <textarea id="input-sentence" placeholder="مثال: أنا أحب الجامعة وأدرس بجد، أو الطبيب في المستشفى..." rows="3"></textarea>
+                        </div>
+                        
+                        <div class="slider-group">
+                            <div class="slider-labels">
+                                <label for="slider-threshold">حد التشابه الدلالي (Threshold):</label>
+                                <span id="threshold-val">0.92</span>
+                            </div>
+                            <input type="range" id="slider-threshold" min="0.85" max="0.98" value="0.92" step="0.01">
+                            <p class="slider-info">القيم الأقل تعطي تطابقات أوسع، القيم الأعلى تعطي دقة ومطابقة تامة.</p>
+                        </div>
+
+                        <button id="btn-analyze" class="btn btn-primary">
+                            <span class="btn-text"><i class="fa-solid fa-magnifying-glass"></i> تحليل الجملة</span>
+                            <span class="btn-loader spinner hidden"></span>
+                        </button>
+
+                        <!-- Dynamic Word-by-word Analysis Panel -->
+                        <div id="analysis-result-section" class="analysis-section hidden">
+                            <hr class="divider">
+                            <h3 class="section-title">تفاصيل تحليل الكلمات والجملة:</h3>
+                            <p class="section-subtitle">قم بتحديد/إلغاء خيار الترجمة الدلالية للتحكم بالتهجئة الأبجدية لكل كلمة:</p>
+                            
+                            <div id="words-cards-container" class="cards-grid">
+                                <!-- JS Inject cards here -->
+                            </div>
+
+                            <button id="btn-generate-gif" class="btn btn-success btn-full">
+                                <span class="btn-text"><i class="fa-solid fa-clapperboard"></i> توليد فيديو لغة الإشارة</span>
+                                <span class="btn-loader spinner hidden"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Outputs & Logs -->
+                    <div class="output-panel glass-card">
+                        <div class="panel-header">
+                            <i class="fa-regular fa-circle-play panel-icon"></i>
+                            <h2>الفيديو الناتج للترجمة</h2>
+                        </div>
+
+                        <div class="output-display">
+                            <!-- Placeholder State -->
+                            <div id="output-placeholder" class="output-empty-state">
+                                <div class="empty-icon">🤟</div>
+                                <p>أدخل النص وقم بتحليله لتوليد ترجمة لغة الإشارة هنا.</p>
+                            </div>
+
+                            <!-- Loading State -->
+                            <div id="output-loading" class="output-loading-state hidden">
+                                <div class="pulse-loader"></div>
+                                <p>جاري استخراج الإطارات ودمج ملفات الـ GIFs...</p>
+                            </div>
+
+                            <!-- Result State -->
+                            <div id="output-result" class="output-result-state hidden">
+                                <div class="gif-frame">
+                                    <img id="result-gif-img" src="" alt="الترجمة الإشارية المدمجة">
+                                </div>
+                                <div class="gif-controls">
+                                    <a id="btn-download-gif" class="btn btn-secondary" href="#" download="sign_translation.gif">
+                                        <i class="fa-solid fa-download"></i> تحميل الـ GIF الناتج
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Logs Console -->
+                        <div id="logs-container" class="logs-card hidden">
+                            <h4>سجل معالجة الدمج:</h4>
+                            <div id="logs-content" class="logs-console"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DICTIONARY TAB CONTENT -->
+            <section id="tab-dictionary-content" class="tab-content">
+                <div class="dictionary-layout">
+                    <!-- Sidebar: Search & Listing -->
+                    <div class="dict-list-panel glass-card">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="dict-search-input" placeholder="ابحث عن إشارة باللغة العربية أو الإنجليزية...">
+                        </div>
+                        
+                        <div class="dict-stats">
+                            <span>عدد الإشارات المتوفرة: <strong id="total-signs-count">0</strong></span>
+                            <span>مدعوم بملف GIF: <strong id="gif-signs-count">0</strong></span>
+                        </div>
+
+                        <div class="dict-grid-container">
+                            <div id="dict-list-loading" class="list-spinner-container">
+                                <div class="spinner"></div>
+                                <p>جاري تحميل قاموس الإشارات...</p>
+                            </div>
+                            <ul id="dict-signs-list" class="signs-list">
+                                <!-- JS Inject signs -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Main View: Detailed preview -->
+                    <div class="dict-preview-panel glass-card">
+                        <div id="dict-preview-empty" class="preview-empty-state">
+                            <i class="fa-solid fa-hand-holding-hand preview-icon"></i>
+                            <h3>تفاصيل الإشارة والتشغيل</h3>
+                            <p>اختر أي إشارة من القائمة على اليمين لعرض تفاصيلها وتشغيل الـ GIF الخاص بها فورياً.</p>
+                        </div>
+
+                        <div id="dict-preview-content" class="preview-content hidden">
+                            <div class="preview-header">
+                                <h3 id="preview-ar-label">اسم الإشارة بالعربية</h3>
+                                <h4 id="preview-en-label">English Label</h4>
+                                <span id="preview-id-badge" class="badge">معرف: #0001</span>
+                            </div>
+
+                            <div class="preview-visual">
+                                <div class="gif-frame-preview">
+                                    <img id="preview-gif-img" src="" alt="عرض الإشارة">
+                                    <div id="preview-gif-loading" class="gif-loader hidden">
+                                        <div class="spinner"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="preview-details">
+                                <div class="details-section">
+                                    <h5>تفاصيل الكلمة والمساعدات:</h5>
+                                    <p>يمكن استخدام هذه الإشارة كترجمة دلالية للكلمات التالية ومشتقاتها:</p>
+                                    <ul id="preview-synonyms-tags" class="synonyms-tags">
+                                        <!-- Synonyms dynamically populated -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>مشروع مترجم لغة الإشارة العربية (ArSL) &copy; 2026</p>
+            <p class="credits">مدعوم بنموذج Multilingual E5 ونماذج معالجة اللغة الطبيعية والتعرف على الكيانات</p>
+        </footer>
+    </div>
+
+    <!-- Script File -->
+    <script src="app.js"></script>
+</body>
+</html>
