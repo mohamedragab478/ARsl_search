@@ -24,11 +24,16 @@ COPY --chown=user app/ ./app/
 COPY --chown=user KARSL-502_Labels.xlsx ./
 COPY --chown=user sign_search.py ./
 
-RUN mkdir -p /app/data_gifs \
-    && wget -q --show-progress \
+RUN wget -q --show-progress \
     "https://github.com/mohamedragab478/ARsl_search/releases/download/ARsl_search/data_gifs.zip" \
     -O /tmp/data_gifs.zip \
-    && unzip -q /tmp/data_gifs.zip -d /app/data_gifs \
+    && python3 -c "\
+import zipfile, os; \
+z = zipfile.ZipFile('/tmp/data_gifs.zip'); \
+os.makedirs('/app/data_gifs', exist_ok=True); \
+[z.extract(m, '/app/data_gifs') for m in z.namelist()]; \
+" \
+    && find /app/data_gifs -mindepth 2 -name '*.gif' -exec mv {} /app/data_gifs/ \; 2>/dev/null || true \
     && rm /tmp/data_gifs.zip \
     && chown -R user:user /app
 
